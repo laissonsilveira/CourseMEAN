@@ -124,7 +124,7 @@ Vamos agora criar nossa página principal no diretório views que chamaremos de 
     <head>
     <head>
     <body>
-        <h1>Bem vindo ao treinamento de MEAN Stack do Alura!</h1>
+        <h1>Bem vindo ao treinamento de MEAN Stack!</h1>
     </body>
 </html>
 ```
@@ -149,7 +149,7 @@ node app
 ```
 No terminal aparece a mensagem que o servidor foi iniciado na porta 3000.
 
-Para acessar a aplicação abriremos a URL http://localhost:3000 no navegador. Deve aparecer a mensagem Bem vindo ao treinamento de MEAN Stack do Alura!.
+Para acessar a aplicação abriremos a URL http://localhost:3000 no navegador. Deve aparecer a mensagem Bem vindo ao treinamento de MEAN Stack!.
 
 ### Conteúdo dos arquivos
 app.js
@@ -173,7 +173,7 @@ index.ejs
     <head>
     <head>
     <body>
-        <h1>Bem vindo ao treinamento de MEAN Stack do Alura!</h1>
+        <h1>Bem vindo ao treinamento de MEAN Stack!</h1>
     </body>
 </html>
 ```
