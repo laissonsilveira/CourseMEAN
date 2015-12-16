@@ -1,4 +1,4 @@
-var Movie = require('../models/movies.js');
+var Movie = require('../models/movies');
 
 exports.index = function(req, res) {
 	res.render('index');
@@ -13,11 +13,9 @@ exports.list = function(req, res) {
 };
 
 exports.insert = function(req, res) {
-	console.log(req);
-	console.log(res);
-	// var movie = new Movie(req.body);
-	// movie.save(function(err, movie) {
-	// 	if (err) return console.log(err); //Print in server
-	// 	res.send('Movies ' + movie.title + ' received in server.'); // Send to print in console browser
-	// });
+	var movie = new Movie(req.body);
+	movie.save(function(err, movie) {
+		if (err) return console.log(err); //Print in server
+		res.send('Movie ' + movie.title + ' received in server. Saved successfully!'); // Send to print in console browser
+	});
 };
