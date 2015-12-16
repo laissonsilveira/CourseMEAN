@@ -1,5 +1,5 @@
 # Course MEAN Stack
-Repository to Course of MEAN Stack - Locadora de Filmes
+Repository to Course of MEAN Stack - Locadora de movies
 
 ## Intro ao MEAN e a primeira rota
 
@@ -19,8 +19,8 @@ Queremos criar uma aplicação web mas apenas com o node.js não conseguiremos f
 
 Para usar Express, primeiro vamos criar o diretório da aplicação. No terminal:
 ```sh
-mkdir catalogo-filmes
-cd catalogo-filmes
+mkdir catalogo-movies
+cd catalogo-movies
 ```
 > Observação: Nesse treinamento usaremos o editor Sublime para escrever o código fonte. Fique a vontade de usar o seu editor de texto favorito.
 
@@ -37,7 +37,7 @@ Usamos a opção --save para salvar este módulo no arquivo package.json.
 Ao abrirmos o arquivo package.json podemos perceber a dependência do Express nele, na última linha:
 ```json
 {
-  "name": "catalogo-filmes",
+  "name": "catalogo-movies",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -53,7 +53,7 @@ Ao abrirmos o arquivo package.json podemos perceber a dependência do Express ne
 ```
 Também temos agora um diretório node_modulos e dentro dele todos os arquivos do Express:
 ```
-catalogo-filmes
+catalogo-movies
  |
  --node-modules
    |
@@ -124,7 +124,7 @@ Vamos agora criar nossa página principal no diretório views que chamaremos de 
     <head>
     <head>
     <body>
-        <h1>Bem vindo ao treinamento de MEAN Stack - Locadora de Filmes!</h1>
+        <h1>Bem vindo ao treinamento de MEAN Stack - Locadora de movies!</h1>
     </body>
 </html>
 ```
@@ -143,13 +143,14 @@ E como recebemos uma requisição do tipo GET na URL /, invocaremos o método ro
 app.get('/', routes.index);
 ```
 ### Iniciando nosso servidor
+
 Vamos voltar para o terminal e testar a nossa aplicação:
 ```sh
 node app
 ```
 No terminal aparece a mensagem que o servidor foi iniciado na porta 3000.
 
-Para acessar a aplicação abriremos a URL http://localhost:3000 no navegador. Deve aparecer a mensagem Bem vindo ao treinamento de MEAN Stack - Locadora de Filmes!.
+Para acessar a aplicação abriremos a URL http://localhost:3000 no navegador. Deve aparecer a mensagem Bem vindo ao treinamento de MEAN Stack - Locadora de movies!.
 
 ### Conteúdo dos arquivos
 app.js
@@ -173,7 +174,7 @@ index.ejs
     <head>
     <head>
     <body>
-        <h1>Bem vindo ao treinamento de MEAN Stack - Locadora de Filmes!</h1>
+        <h1>Bem vindo ao treinamento de MEAN Stack - Locadora de movies!</h1>
     </body>
 </html>
 ```
@@ -183,3 +184,232 @@ exports.index = function(req, res) {
     res.render('index');
 }
 ```
+
+## Angular com Express
+
+Aprendemos no capítulo anterior como configurar o Express e criar rotas. Neste capítulo nos aprofundaremos um pouco mais no Express, inclusive utilizaremos o AngularJS para consumir e enviar dados para nosso servidor.
+
+### Preparando nosso backend para retornar um movie
+
+Primeiro, precisamos criar no Express uma função que retorne um movie. Para isso, vamos editar o arquivo routes/index.js adicionando mais uma rota, desta vez a /list:
+
+```js
+// routes/index.js
+// no final do arquivo
+exports.list = function(req, res) {
+    res.json({
+        title: 'Gangues de Nova Iorque', 
+        director: 'Martin Scorsese', 
+        year: 2002
+    });
+};
+```
+Nela, no lugar de usarmos a função res.render, utilizamos res.json que permite escrever para o navegador uma saída no formato JSON. Enviamos para o navegador informações como title, director e year do movie.
+
+Lembre-se que isso ainda não é suficiente. Nossas funções precisam estar associados a URL's para que funcionem. Realizamos essa associação no arquivo app.js:
+
+```js
+// app.js
+var express = require('express');
+var path = require('path');
+var routes = require('./routes');
+var app = express();
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.get('/', routes.index);
+app.get('/list', routes.list); // nova associação da URL com a função
+app.set('port', process.env.port || 3000);
+var server = app.listen(app.get('port'), function() {
+    console.log('Servidor foi startado na porta ' + server.address().port);
+});
+```
+Vamos reiniciar nosso servidor e logo em seguida acessar o endereço: http://localhost:3000/list que deve exibir em seu navegador o JSON:
+
+```json
+{ "title" :  "Gangues de Nova Iorque", "director" : "Martin Scorsese", "year" : 2002 }
+```
+### Compartilhando a pasta public
+
+Nosso próximo passo será compartilhar publicamente uma pasta de nosso servidor. Fazemos isso pelo próprio express adicionando o middleware express.static. Middlewares são utilizados para processar requisições. Cada middleware vai passando seu resultado para o próximo até que todos sejam aplicados:
+```js
+// app.js
+var express = require('express');
+var path = require('path');
+var routes = require('./routes');
+var app = express();
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public'))); // compartilha a pasta public
+app.get('/', routes.index);
+app.get('/list', routes.list);
+app.set('port', process.env.port || 3000);
+var server = app.listen(app.get('port'), function() {
+    console.log('Servidor foi startado na porta ' + server.address().port);
+});
+```
+Compartilhamos a pasta public para permitir que scripts sejam acessados pelo navegador sem a necessidade de criarmos uma rota para cada um deles. Mas qual script nossa página index.ejs baixará? O AngularJS! Neste treinamento utilizaremos o Angular 1.2, porém no último capítulo veremos como migrar nosso código para sua versão 1.3. Por isso é importante utilizar esta [versão](https://s3.amazonaws.com/caelum-online-public/mean/angular.js).
+
+### Ativando o AngularJS em nossa página
+
+Em nossa página index.ejs importamos o AngularJS como último script antes do fechamento da tag body de index.ejs:
+
+```html
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <meta charset="UTF-8">
+    <title>Bem-vindo</title>
+</head>
+<body>
+    <h1>Bem-vindo ao treinamento de MEAN Stack do Alura!</h1>
+    <script src="javascript/angular.js"></script>
+</body>
+</html>
+```
+Adicionamos o atributo ng-app, que na verdade é uma diretiva do AngularJS. Ela indica que o elemento no qual ela foi adicionada será controlado pelo AngularJS. Diretivas ensinam novos truques para o navegador.
+
+Como o AngularJS é um framework MVC, criaremos um controller que será responsável em disponibilizar um movie para a nossa view.
+
+### Controller do AngularJS
+
+Vamos criar o arquivo MoviesController.js dentro da pasta 'public/javascript'. Para não esquecermos, vamos importá-lo em nossa página index.ejs, inclusive vamos indicar que este controller será responsável pelo gerenciamento da tag body através da diretiva ng-controller. Nosso arquivo public/javascript/MoviesController.js fica assim:
+```js
+// public/javascript/MoviesController.js
+function MoviesController() {
+}
+```
+DICA: Até a versão 1.2 do AngularJS é possível declarar controllers desta forma. No último capítulo veremos a forma mais atual, porém o formato da versão 1.2 é bem didático para começarmos.
+
+### Requisições Ajax com $http
+
+Queremos que nosso controller do AngularJS chame a rota /list que retorna um movie. Porém, para que seja possível realizar requisições Ajax,utilizamos o serviço $http. Para termos acesso a esta serviço, precisamos recebê-lo como parâmetro em nosso Controller. É através da função $http.get que passamos o endereço que desejamos acessar. Mas onde obter o resultado da função? Fazemos isso encadeando uma chamada à função success que recebe como parâmetro um callback que nos dará acesso ao retorno do servidor:
+```js
+// public/javascript/MoviesController.js
+function MoviesController($http) {
+    $http.get('/list')
+    .success(function(retorno) {
+    });
+}
+```
+Porém, precisamos disponibilizar para a view o retorno, em nosso caso, um movie. Fazemos isso através do objeto $scope, que também recebemos como parâmetro em nosso controller. Tudo que for adicionado nele estará disponível em nossa view através da Angular Expression (AE):
+```js
+// public/javascript/MoviesController.js
+function MoviesController($http, $scope) {
+    $http.get('/list')
+    .success(function(retorno) {
+        $scope.movie = retorno;
+    });
+}
+```
+
+### Associando Controller e View
+
+Agora, em nossa view index.ejs usamos a Angular Expression (AE) para acessá-lo:
+```html
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <meta charset="UTF-8">
+    <title>Bem-vindo</title>
+</head>
+<body ng-controller="MoviesController">
+    <h1>Bem-vindo ao treinamento de MEAN Stack - Movies!</h1>
+    <p>{{movie}}<p>
+    <script src="/javascript/angular.js"></script>
+    <script src="/javascript/MoviesController.js"></script>
+</body>
+</html>
+```
+Excelente. Agora, basta acessarmos a URL http://localhost:3000. No lugar de vermos {{movie}} veremos impresso o JSON disponibilizado em $scope pelo AngularJS.
+
+O que deve ser destacado é que $http será chamado quando nosso controller for inicializado pelo AngularJS. Sabendo disso, criaremos uma requisição que envia um movie para nosso servidor para depois imprimirmos seus dados no terminal, mas desta vez usando a função $http.post:
+```js
+// public/javascript/MoviesController.js
+function MoviesController($http, $scope) {
+    $http.get('/list')
+    .success(function(retorno) {
+        $scope.movie = retorno;
+    });
+    $http.post('/insert', { title: 'Gattaca', director:  'Andrew Nicool', year: 1997 })
+    .success(function(retorno) {
+        console.log(retorno);
+    });
+}
+```
+### Criando novas rotas no Express
+
+Agora, precisamos criar uma resposta no Express para a URL /insert:
+```js
+// app.js
+var express = require('express');
+var path = require('path');
+var bodyParser = require('body-parser');
+var routes = require('./routes');
+var app = express();
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', routes.index);
+app.get('/list', routes.list);
+app.post('/insert', routes.insert); // reposta para a URL /insert
+app.set('port', process.env.port || 3000);
+var server = app.listen(app.get('port'), function() {
+    console.log('Servidor foi startado na porta ' + server.address().port);
+});
+```
+Lembre-se que precisamos criar em routes/index.js a função insert:
+```js
+// routes/index.js
+exports.index = function(req, res) {
+    res.render('index');
+};
+exports.list = function(req, res) {
+    res.json({
+        title: 'Gangues de Nova Iorque', 
+        director: 'Martin Scorsese', 
+        year: 2002
+    });
+};
+exports.insert = function(req, res) {
+    var movie = req.body;
+    console.log(movie);
+    res.send('movie ' + movie.title  + ' recebido no servidor.');
+};
+```
+### O middleware bodyParser
+
+Repare que em nossa função estamos acessando através de req.body os dados enviados. Porém, isso só funcionará se tivermos o middleware body-parser ativado. Por isso precisamos realizar sua instalação primeiro no terminal através do npm:
+
+```sh
+npm install body-parser --save
+```
+Agora, precisamos ativar este middleware em nosso arquivo app.js, mas antes do middleware express.static:
+```js
+var express = require('express');
+var path = require('path');
+var bodyParser = require('body-parser');
+var routes = require('./routes');
+var app = express();
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+// adicionando o middleware body parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', routes.index);
+app.get('/list', routes.list);
+app.post('/insert', routes.insert);
+app.set('port', process.env.port || 3000);
+var server = app.listen(app.get('port'), function() {
+    console.log('Servidor foi startado na porta ' + server.address().port);
+});
+```
+Reiniciando o servidor, quando abrirmos a página http://localhost:3000, além de ser exibido os dados do movie trazidos do servidor, no terminal será impresso os dados do movie que enviamos para o servidor através do AngularJS.
