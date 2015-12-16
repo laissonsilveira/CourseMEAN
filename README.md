@@ -1,7 +1,7 @@
 # Course MEAN Stack
 Repository to Course of MEAN Stack - Locadora de movies
 
-## Intro ao MEAN e a primeira rota
+## 1. Intro ao MEAN e a primeira rota
 
 ### Introdução ao MEAN-Stack
 Bem vindo ao treinamento do MEAN-Stack. Durante desse treinamento usaremos algumas ferramentas como o node.js, mongoDB, AngularJS e Express. Essa interessante pilha de ferramentas nos permite trabalhar com JavaScript End-To-End, ou seja, do cliente até o banco de dados.
@@ -185,7 +185,7 @@ exports.index = function(req, res) {
 }
 ```
 
-## Angular com Express
+## 2. Angular com Express
 
 Aprendemos no capítulo anterior como configurar o Express e criar rotas. Neste capítulo nos aprofundaremos um pouco mais no Express, inclusive utilizaremos o AngularJS para consumir e enviar dados para nosso servidor.
 
