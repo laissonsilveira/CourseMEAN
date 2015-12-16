@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
 
 app.get('/', routes.index);
 app.get('/list', routes.list);
-app.post('/insert', routes.insert)
+app.post('/insert', routes.insert);
 
 app.set('port', process.env.PORT || 3000);
 

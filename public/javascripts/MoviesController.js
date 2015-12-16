@@ -1,16 +1,22 @@
 function MoviesController($http, $scope) {
     $http.get('/list').success(function (res) {
-        console.log("Success!");
-        $scope.movie = res;
+        $scope.movies = res.movies;
     }).error(function(r) {
-        console.log("Error!")
+        console.log("Error! : " + r)
     });
 
-    $http.post('/insert', {
-		title: 'Gangues de Nova Iorque',
-		director: 'Martin Scorsese',
-		year: 2002
-	}).success(function(res) {
-    	console.log(res); //Print in console browser
-    });
+    function Movie() {
+        this.title = '';
+        this.director = '';
+        this.year = '';
+    }
+
+    $scope.movie = new Movie();
+
+    $scope.insertMovie = function() {
+        $http.post('/insert', $scope.movie).success(function(res) {
+            console.log(res); //Print in console browser
+        });
+    }
+    
 }

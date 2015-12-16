@@ -3,12 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Course MEAN by Laisson</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
 </head>
 <body ng-controller="MoviesController">
-    <h1>Welcome to course of MEAN Stack - Movies</h1>
-
-    <p>{{movie}}</p>
-
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1>Welcome to course of MEAN Stack - Movies</h1>
+			</div>
+			<div class="panel-body">
+				<label>Movies</label>
+				<ul ng-repeat="movie in movies">
+					<li>
+						<p>{{movie.title}}</p>    		
+					</li>
+				</ul>
+				<hr/>
+				 <form class="form-inline" action="insertMovie">
+					<div class="form-group">
+						<label>Title: </label>
+						<input ng-model="movie.title" type="text" class="form-control" placeholder="Insert a title...">
+					</div>
+					<div class="form-group">
+						<label>Director: </label>
+						<input ng-model="movie.director" type="text" class="form-control" placeholder="Insert director...">
+					</div>
+					<div class="form-group">
+						<label>Year: </label>
+						<input ng-model="movie.year" type="text" class="form-control" placeholder="Insert a year..">
+					</div>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+        
     <script src="/javascripts/angular.js"></script>
     <script src="/javascripts/MoviesController.js"></script>
 </body>
