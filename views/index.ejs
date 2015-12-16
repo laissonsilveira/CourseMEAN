@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html ng-app>
 <head>
-	<title>Course MEAN by Laisson</title>
+    <meta charset="UTF-8">
+    <title>Course MEAN by Laisson</title>
 </head>
-<body>
-	<h1>Welcome to course of MEAN Stack</h1>
+<body ng-controller="MoviesController">
+    <h1>Welcome to course of MEAN Stack - Movies</h1>
+
+    <p>{{movie}}</p>
+
+    <script src="/javascripts/angular.js"></script>
+    <script src="/javascripts/MoviesController.js"></script>
 </body>
 </html>
