@@ -122,9 +122,10 @@ Vamos agora criar nossa página principal no diretório views que chamaremos de 
 <!DOCTYPE html>
 <html>
     <head>
-    <head>
+      <title>Course MEAN by Laisson</title>
+    </head>
     <body>
-        <h1>Bem vindo ao treinamento de MEAN Stack - Locadora de movies!</h1>
+        <h1>Bem vindo ao treinamento de MEAN Stack - Movies!</h1>
     </body>
 </html>
 ```
@@ -172,9 +173,10 @@ index.ejs
 <!DOCTYPE html>
 <html>
     <head>
-    <head>
+      <title>Course MEAN by Laisson</title>
+    </head>
     <body>
-        <h1>Bem vindo ao treinamento de MEAN Stack - Locadora de movies!</h1>
+        <h1>Bem vindo ao treinamento de MEAN Stack - Movies!</h1>
     </body>
 </html>
 ```
@@ -259,11 +261,11 @@ Em nossa página index.ejs importamos o AngularJS como último script antes do f
 <html ng-app>
 <head>
     <meta charset="UTF-8">
-    <title>Bem-vindo</title>
+    <title>Course MEAN by Laisson</title>
 </head>
-<body>
-    <h1>Bem-vindo ao treinamento de MEAN Stack do Alura!</h1>
-    <script src="javascript/angular.js"></script>
+<body ng-controller="MoviesController">
+    <h1>Welcome to course of MEAN Stack - Movies</h1>
+    <script src="/javascripts/angular.js"></script>
 </body>
 </html>
 ```
