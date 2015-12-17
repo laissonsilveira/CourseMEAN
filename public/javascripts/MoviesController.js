@@ -15,7 +15,24 @@ function MoviesController($http, $scope) {
 
     $scope.insertMovie = function() {
         $http.post('/insert', $scope.movie).success(function(res) {
-            console.log(res); //Print in console browser
+            $scope.movies.push(res);
+            $scope.movie = new Movie();
+        });
+    }
+
+    $scope.showMovieDetail = function(movie) {
+        $scope.selectedMovie = movie;
+    }
+
+    $scope.hideMovieDetail = function(movie) {
+        $scope.selectedMovie = null;
+    }
+
+    $scope.deleteMovie = function(movie) {
+        $http.delete('/movie/' + movie._id).success(function(error, res) {
+            $scope.selectedMovie = null;
+            var index = $scope.movies.indexOf(movie);
+            $scope.movies.splice(index, 1);
         });
     }
     

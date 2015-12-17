@@ -15,10 +15,23 @@
 				<label>Movies</label>
 				<ul ng-repeat="movie in movies">
 					<li>
-						<p>{{movie.title}}</p>    		
+						<p>{{movie.title}} <button ng-click="showMovieDetail(movie)" class="btn btn-default btn-xs">Details...</button></p>
 					</li>
 				</ul>
-				<hr/>
+				<hr>
+				<div ng-if="selectedMovie">
+					<label>Movie Details</label>
+					<div class="text-center">
+					    <dl>
+					        <dt>Title: </dt>{{selectedMovie.title}}
+					        <dt>Director: </dt>{{selectedMovie.director}}
+					        <dt>Year: </dt>{{selectedMovie.year}}
+					    </dl>
+					    <button ng-click="hideMovieDetail()" class="btn btn-warning btn-sm">Hide Detail</button>
+					    <button ng-click="deleteMovie(selectedMovie)" class="btn btn-danger btn-sm">Delete</button>
+					    <hr>
+					</div>
+				</div>
 				 <form class="form-inline" ng-submit="insertMovie()">
 					<div class="form-group">
 						<label>Title: </label>
@@ -32,7 +45,7 @@
 						<label>Year: </label>
 						<input ng-model="movie.year" type="text" class="form-control" placeholder="Insert a year..">
 					</div>
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<button type="submit" class="btn btn-primary">Add</button>
 				</form>
 			</div>
 		</div>

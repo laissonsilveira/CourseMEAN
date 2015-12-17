@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({
 app.get('/', routes.index);
 app.get('/list', routes.list);
 app.post('/insert', routes.insert);
+app.delete('/movie/:id', routes.remove);
 
 app.set('port', process.env.PORT || 3000);
 
