@@ -883,7 +883,7 @@ Façamos um teste: vamos cadastrar outros filmes, e depois, recarregar a página
 
 ## 4. Alterando filmes
 
-Seja bem-vindo ao sexto capítulo de MEAN Stack do Alura. No capítulo anterior, criamos uma funcionalidade para deletar filmes. Agora queremos atualizar as informações de um filme já existente.
+No capítulo anterior, criamos uma funcionalidade para deletar filmes. Agora queremos atualizar as informações de um filme já existente.
 
 ### Selecionando filme da lista
 
