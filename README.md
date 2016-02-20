@@ -887,7 +887,7 @@ No capítulo anterior, criamos uma funcionalidade para deletar filmes. Agora que
 
 ### Selecionando filme da lista
 
-Na página `index.ejs` criaremos uma nova âncora na `div` de filme selecionado:
+Na página `index.ejs` criaremos um novo botão na `div` de filme selecionado:
 
 ```html
 <div ng-if="selectedMovie">
