@@ -1,5 +1,5 @@
 # Course MEAN Stack
-Repository to Course of MEAN Stack - Locadora de movies
+Repository to Course of MEAN Stack - Locadora de filme
 
 ## 1. Intro ao MEAN e a primeira rota
 
@@ -19,8 +19,8 @@ Queremos criar uma aplicação web mas apenas com o node.js não conseguiremos f
 
 Para usar Express, primeiro vamos criar o diretório da aplicação. No terminal:
 ```sh
-mkdir catalogo-movies
-cd catalogo-movies
+mkdir course_mean
+cd course_mean
 ```
 > Observação: Nesse treinamento usaremos o editor Sublime para escrever o código fonte. Fique a vontade de usar o seu editor de texto favorito.
 
@@ -37,7 +37,7 @@ Usamos a opção --save para salvar este módulo no arquivo package.json.
 Ao abrirmos o arquivo package.json podemos perceber a dependência do Express nele, na última linha:
 ```json
 {
-  "name": "catalogo-movies",
+  "name": "course_mean",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -53,7 +53,7 @@ Ao abrirmos o arquivo package.json podemos perceber a dependência do Express ne
 ```
 Também temos agora um diretório node_modulos e dentro dele todos os arquivos do Express:
 ```
-catalogo-movies
+course_mean
  |
  --node-modules
    |
@@ -111,7 +111,7 @@ var server = app.listen(app.get('port'));
 Usaremos uma função de callback para exibir uma mensagem indicando que o servidor foi iniciado:
 ```js
 var server = app.listen(app.get('port'), function() {
-    console.log('Servidor foi startado na porta ' + server.address().port);
+    console.log('Server started on port ' + server.address().port);
 });
 ```
 ### A primeira view
@@ -125,7 +125,7 @@ Vamos agora criar nossa página principal no diretório views que chamaremos de 
       <title>Course MEAN by Laisson</title>
     </head>
     <body>
-        <h1>Bem vindo ao treinamento de MEAN Stack - Movies!</h1>
+        <h1>Welcome to course of MEAN Stack - Movies</h1>
     </body>
 </html>
 ```
@@ -151,7 +151,7 @@ node app
 ```
 No terminal aparece a mensagem que o servidor foi iniciado na porta 3000.
 
-Para acessar a aplicação abriremos a URL http://localhost:3000 no navegador. Deve aparecer a mensagem Bem vindo ao treinamento de MEAN Stack - Locadora de movies!.
+Para acessar a aplicação abriremos a URL http://localhost:3000 no navegador. Deve aparecer a mensagem "Welcome to course of MEAN Stack - Movies".
 
 ### Conteúdo dos arquivos
 app.js
@@ -165,7 +165,7 @@ app.set('view engine', 'ejs');
 app.get('/', routes.index);
 app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), function() {
-    console.log('Servidor foi startado na porta ' + server.address().port);
+    console.log('Server started on port ' + server.address().port);
 });
 ```
 index.ejs
@@ -176,7 +176,7 @@ index.ejs
       <title>Course MEAN by Laisson</title>
     </head>
     <body>
-        <h1>Bem vindo ao treinamento de MEAN Stack - Movies!</h1>
+        <h1>Welcome to course of MEAN Stack - Movies</h1>
     </body>
 </html>
 ```
@@ -191,9 +191,9 @@ exports.index = function(req, res) {
 
 Aprendemos no capítulo anterior como configurar o Express e criar rotas. Neste capítulo nos aprofundaremos um pouco mais no Express, inclusive utilizaremos o AngularJS para consumir e enviar dados para nosso servidor.
 
-### Preparando nosso backend para retornar um movie
+### Preparando nosso backend para retornar um filme
 
-Primeiro, precisamos criar no Express uma função que retorne um movie. Para isso, vamos editar o arquivo routes/index.js adicionando mais uma rota, desta vez a /list:
+Primeiro, precisamos criar no Express uma função que retorne um filme. Para isso, vamos editar o arquivo routes/index.js adicionando mais uma rota, desta vez a /list:
 
 ```js
 // routes/index.js
@@ -206,7 +206,7 @@ exports.list = function(req, res) {
     });
 };
 ```
-Nela, no lugar de usarmos a função res.render, utilizamos res.json que permite escrever para o navegador uma saída no formato JSON. Enviamos para o navegador informações como title, director e year do movie.
+Nela, no lugar de usarmos a função res.render, utilizamos res.json que permite escrever para o navegador uma saída no formato JSON. Enviamos para o navegador informações como título, diretor e ano do filme.
 
 Lembre-se que isso ainda não é suficiente. Nossas funções precisam estar associados a URL's para que funcionem. Realizamos essa associação no arquivo app.js:
 
@@ -222,7 +222,7 @@ app.get('/', routes.index);
 app.get('/list', routes.list); // nova associação da URL com a função
 app.set('port', process.env.port || 3000);
 var server = app.listen(app.get('port'), function() {
-    console.log('Servidor foi startado na porta ' + server.address().port);
+    console.log('Server started on port ' + server.address().port);
 });
 ```
 Vamos reiniciar nosso servidor e logo em seguida acessar o endereço: http://localhost:3000/list que deve exibir em seu navegador o JSON:
@@ -246,7 +246,7 @@ app.get('/', routes.index);
 app.get('/list', routes.list);
 app.set('port', process.env.port || 3000);
 var server = app.listen(app.get('port'), function() {
-    console.log('Servidor foi startado na porta ' + server.address().port);
+    console.log('Server started on port ' + server.address().port);
 });
 ```
 Compartilhamos a pasta public para permitir que scripts sejam acessados pelo navegador sem a necessidade de criarmos uma rota para cada um deles. Mas qual script nossa página index.ejs baixará? O AngularJS! Neste treinamento utilizaremos o Angular 1.2, porém no último capítulo veremos como migrar nosso código para sua versão 1.3. Por isso é importante utilizar esta [versão](https://s3.amazonaws.com/caelum-online-public/mean/angular.js).
@@ -271,7 +271,7 @@ Em nossa página index.ejs importamos o AngularJS como último script antes do f
 ```
 Adicionamos o atributo ng-app, que na verdade é uma diretiva do AngularJS. Ela indica que o elemento no qual ela foi adicionada será controlado pelo AngularJS. Diretivas ensinam novos truques para o navegador.
 
-Como o AngularJS é um framework MVC, criaremos um controller que será responsável em disponibilizar um movie para a nossa view.
+Como o AngularJS é um framework MVC, criaremos um controller que será responsável em disponibilizar um filme para a nossa view.
 
 ### Controller do AngularJS
 
@@ -285,22 +285,22 @@ DICA: Até a versão 1.2 do AngularJS é possível declarar controllers desta fo
 
 ### Requisições Ajax com $http
 
-Queremos que nosso controller do AngularJS chame a rota /list que retorna um movie. Porém, para que seja possível realizar requisições Ajax,utilizamos o serviço $http. Para termos acesso a esta serviço, precisamos recebê-lo como parâmetro em nosso Controller. É através da função $http.get que passamos o endereço que desejamos acessar. Mas onde obter o resultado da função? Fazemos isso encadeando uma chamada à função success que recebe como parâmetro um callback que nos dará acesso ao retorno do servidor:
+Queremos que nosso controller do AngularJS chame a rota /list que retorna um filme. Porém, para que seja possível realizar requisições Ajax,utilizamos o serviço $http. Para termos acesso a esta serviço, precisamos recebê-lo como parâmetro em nosso Controller. É através da função $http.get que passamos o endereço que desejamos acessar. Mas onde obter o resultado da função? Fazemos isso encadeando uma chamada à função success que recebe como parâmetro um callback que nos dará acesso ao retorno do servidor:
 ```js
 // public/javascript/MoviesController.js
 function MoviesController($http) {
     $http.get('/list')
-    .success(function(retorno) {
+    .success(function(res) {
     });
 }
 ```
-Porém, precisamos disponibilizar para a view o retorno, em nosso caso, um movie. Fazemos isso através do objeto $scope, que também recebemos como parâmetro em nosso controller. Tudo que for adicionado nele estará disponível em nossa view através da Angular Expression (AE):
+Porém, precisamos disponibilizar para a view o retorno, em nosso caso, um filme. Fazemos isso através do objeto $scope, que também recebemos como parâmetro em nosso controller. Tudo que for adicionado nele estará disponível em nossa view através da Angular Expression (AE):
 ```js
 // public/javascript/MoviesController.js
 function MoviesController($http, $scope) {
     $http.get('/list')
-    .success(function(retorno) {
-        $scope.movie = retorno;
+    .success(function(res) {
+        $scope.movie = res;
     });
 }
 ```
@@ -326,17 +326,17 @@ Agora, em nossa view index.ejs usamos a Angular Expression (AE) para acessá-lo:
 ```
 Excelente. Agora, basta acessarmos a URL http://localhost:3000. No lugar de vermos {{movie}} veremos impresso o JSON disponibilizado em $scope pelo AngularJS.
 
-O que deve ser destacado é que $http será chamado quando nosso controller for inicializado pelo AngularJS. Sabendo disso, criaremos uma requisição que envia um movie para nosso servidor para depois imprimirmos seus dados no terminal, mas desta vez usando a função $http.post:
+O que deve ser destacado é que $http será chamado quando nosso controller for inicializado pelo AngularJS. Sabendo disso, criaremos uma requisição que envia um filme para nosso servidor para depois imprimirmos seus dados no terminal, mas desta vez usando a função $http.post:
 ```js
 // public/javascript/MoviesController.js
 function MoviesController($http, $scope) {
     $http.get('/list')
-    .success(function(retorno) {
-        $scope.movie = retorno;
+    .success(function(res) {
+        $scope.movie = res;
     });
     $http.post('/insert', { title: 'Gattaca', director:  'Andrew Nicool', year: 1997 })
-    .success(function(retorno) {
-        console.log(retorno);
+    .success(function(res) {
+        console.log(res);
     });
 }
 ```
@@ -362,7 +362,7 @@ app.get('/list', routes.list);
 app.post('/insert', routes.insert); // reposta para a URL /insert
 app.set('port', process.env.port || 3000);
 var server = app.listen(app.get('port'), function() {
-    console.log('Servidor foi startado na porta ' + server.address().port);
+    console.log('Server started on port ' + server.address().port);
 });
 ```
 Lembre-se que precisamos criar em routes/index.js a função insert:
@@ -411,12 +411,12 @@ app.get('/list', routes.list);
 app.post('/insert', routes.insert);
 app.set('port', process.env.port || 3000);
 var server = app.listen(app.get('port'), function() {
-    console.log('Servidor foi startado na porta ' + server.address().port);
+    console.log('Server started on port ' + server.address().port);
 });
 ```
-Reiniciando o servidor, quando abrirmos a página http://localhost:3000, além de ser exibido os dados do movie trazidos do servidor, no terminal será impresso os dados do movie que enviamos para o servidor através do AngularJS.
+Reiniciando o servidor, quando abrirmos a página http://localhost:3000, além de ser exibido os dados do filme trazidos do servidor, no terminal será impresso os dados do filme que enviamos para o servidor através do AngularJS.
 
-## 3. Cadastrando Movies
+## 3. Cadastrando Filmes
 
 Neste capítulo aprenderemos a interagir com o MongoDB, mas primeiro você precisa instalar este banco em sua máquina.
 
@@ -478,7 +478,7 @@ Utilizaremos um módulo chamado *Mongoose*, que funciona como uma camada de abst
 npm install mongoose --save 
 ```
 
-Vamos utilizar o Mongoose para definir nosso modelo de movies. Para isso, vamos criar o diretório *models* e dentro desse novo diretório criaremos um novo arquivo chamado ```movies.js```. Vamos começar importando o módulo do *mongoose*:
+Vamos utilizar o Mongoose para definir nosso modelo de filmes. Para isso, vamos criar o diretório *models* e dentro desse novo diretório criaremos um novo arquivo chamado ```movies.js```. Vamos começar importando o módulo do *mongoose*:
 
 ```js
 // models/movies.js
@@ -488,7 +488,7 @@ mongoose.connect('mongodb://localhost/mean');
 ```
 
 ### Schemas e modelos
-Usaremos um esquema do Mongoose para definir nosso modelo de Movie:
+Usaremos um esquema do Mongoose para definir nosso modelo de Filme:
 
 ```js
 // models/movies.js
@@ -499,7 +499,7 @@ mongoose.connect('mongodb://localhost/mean');
 var movieSchema = new mongoose.Schema();
 ```
 
-Passaremos para a função ```mongoose.Schema()``` um objeto com as propriedades que nosso movie terá. O *title*, *director* e *year* serão do tipo ```String```, porém apenas os dois primeiros serão obrigatórios:
+Passaremos para a função ```mongoose.Schema()``` um objeto com as propriedades que nosso filme terá. O *title*, *director* e *year* serão do tipo ```String```, porém apenas os dois primeiros serão obrigatórios:
 
 ```js
 // models/movies.js
@@ -521,7 +521,7 @@ var movieSchema = new mongoose.Schema({
   }
 });
 ```
-Só precisamos agora exportar nosso módulo de movie:
+Só precisamos agora exportar nosso módulo de filme:
 
 ```js
 // models/movies.js
@@ -549,7 +549,7 @@ module.exports = movie;
 
 ### Testando a persistência
 
-Vamos agora testar nosso módulo de Movie. Portanto, criaremos um novo arquivo que chamaremos de ```testa-insere.js```.
+Vamos agora testar nosso módulo de Filme. Portanto, criaremos um novo arquivo que chamaremos de ```test-insert-movie.js```.
 
 Começaremos importando o módulo que criamos.
 
@@ -559,7 +559,7 @@ Começaremos importando o módulo que criamos.
 var Movie = require('./models/movies');
 ```
 
-Em seguida, vamos criar um movie a partir de nosso esquema:
+Em seguida, vamos criar um filme a partir de nosso esquema:
 
 ```js
 var movie = new Movie({
@@ -568,7 +568,7 @@ var movie = new Movie({
   year: '2006'
 });
 ```
-Por fim, vamos salvá-lo chamando o método save da própria instância. Ele recebe uma função de callback, que por sua vez recebe dois parâmetros. O primeiro é uma referência ao erro, caso exista, o segundo uma referência ao movie que foi gravado no banco.
+Por fim, vamos salvá-lo chamando o método save da própria instância. Ele recebe uma função de callback, que por sua vez recebe dois parâmetros. O primeiro é uma referência ao erro, caso exista, o segundo uma referência ao filme que foi gravado no banco.
 
 ```js
 // test-insert-movie.js
@@ -584,7 +584,7 @@ movie.save(function(erro, movie) {
 });
 ```
 
-Caso tenha acontecido algum erro, usaremos o primeiro parâmetro (erro) para nos informar o que aconteceu. Se o movie foi gravado com sucesso, também queremos exibir uma mensagem no console de sucesso com o nome do movie que foi gravado no banco.
+Caso tenha acontecido algum erro, usaremos o primeiro parâmetro (erro) para nos informar o que aconteceu. Se o filme foi gravado com sucesso, também queremos exibir uma mensagem no console de sucesso com o nome do filme que foi gravado no banco.
 Vamos rodar nosso ```test-insert-movie.js``` agora e verificar se ele está gravando de fato nosso documento no banco de dados:
 
 ```sh
@@ -607,13 +607,13 @@ Repare que a coleção movies já foi criada pelo Mongoose. Vamos executar uma b
 ```sh
 db.movies.find();
 ```
-Pronto. O movie que criamos foi adicionado no banco de dados. Nosso arquivo ```test-insert-movie.js``` não será mais necessário, podemos apagá-lo. 
+Pronto. O filme que criamos foi adicionado no banco de dados. Nosso arquivo ```test-insert-movie.js``` não será mais necessário, podemos apagá-lo (ou não ;]). 
 
 ### Integração Express com MongoDB através do Mongoose
 
-Repare que em nosso arquivo de rotas ```index.js```, no método lista, estamos enviando um JSON como resposta. Não queremos mais enviar um dado estático. No lugar disso, executaremos uma busca no banco de dados e exibiremos todos os movies de nossa coleção.
+Repare que em nosso arquivo de rotas ```index.js```, no método lista, estamos enviando um JSON como resposta. Não queremos mais enviar um dado estático. No lugar disso, executaremos uma busca no banco de dados e exibiremos todos os filmes de nossa coleção.
 
-Para realizarmos uma busca em nossa coleção de movies, primeiro precisamos importar nosso modelo de movies:
+Para realizarmos uma busca em nossa coleção de filmes, primeiro precisamos importar nosso modelo de filmes:
 
 ```js
 // routes/index.js
@@ -637,11 +637,11 @@ exports.insert = function(req, res) {
 
   console.log(movie);
 
-  res.send('Movie ' + movie.title  + ' recebido no servidor.');
+  res.send('Movie ' + movie.title  + ' received on server.');
 };
 ```
 
-Agora, no método lista, utilizaremos a função ```find```, que realiza uma busca no banco de dados. Esta função recebe dois parâmetros: o primeiro parâmetro é um objeto que representa nossa *query*. O segundo parâmetro é uma função de *callback* que recebe dois parâmetros: O primeiro é contém qualquer erro resultante da operação, o segundo uma coleção de movies encontrado na busca. 
+Agora, no método lista, utilizaremos a função ```find```, que realiza uma busca no banco de dados. Esta função recebe dois parâmetros: o primeiro parâmetro é um objeto que representa nossa *query*. O segundo parâmetro é uma função de *callback* que recebe dois parâmetros: O primeiro é contém qualquer erro resultante da operação, o segundo uma coleção de filmes encontrado na busca. 
 
 ```js
 // routes/index.js
@@ -664,33 +664,33 @@ exports.insert = function(req, res) {
 
   console.log(movie);
 
-  res.send('Movie ' + movie.title  + ' recebido no servidor.');
+  res.send('Movie ' + movie.title  + ' received on server.');
 };
 ```
 
-Vamos reiniciar nosso servidor e verificar se os movies são impressos. Atualizando o navegador, vemos que estamos recebendo um JSON com a lista de movies. 
+Vamos reiniciar nosso servidor e verificar se os filmes são impressos. Atualizando o navegador, vemos que estamos recebendo um JSON com a lista de filmes. 
 
 Que tal agora utilizarmos o *AngularJS* para melhorarmos a apresentação da lista?
 
-Vamos alterar nosso controller ```MoviesController```. Em nossa função ```$http.get```, vamos obter do seu retorno a propriedade movies:
+Vamos alterar nosso controller ```MoviesController```. Em nossa função ```$http.get```, vamos obter do seu retorno a propriedade filmes:
 
 ```js
 // public/javascript/MoviesController.js
 
 function MoviesController($http, $scope) {
   $http.get('/list')
-  .success(function(retorno) {
-    $scope.movie = retorno.movies;
+  .success(function(res) {
+    $scope.movie = res.movies;
   });
 
   $http.post('/insert', { title: 'Gattaca', director:  'Andrew Nicool', year: 1997 })
-  .success(function(retorno) {
-    console.log(retorno);
+  .success(function(res) {
+    console.log(res);
   });
 }
 ```
 
-Agora, em nosso arquivo ```index.ejs``` vamos exibir cada um dos movies em uma lista através da diretiva ```ng-repeat``` do AngularJS:
+Agora, em nosso arquivo ```index.ejs``` vamos exibir cada um dos filmes em uma lista através da diretiva ```ng-repeat``` do AngularJS:
 
 ```html
 <!-- views/index.ejs -->
@@ -702,7 +702,7 @@ Agora, em nosso arquivo ```index.ejs``` vamos exibir cada um dos movies em uma l
   <title>Course MEAN by Laisson</title>
 </head>
 <body ng-controller="MoviesController">
-  <h1>Course MEAN by Laisson ao treinamento de MEAN Stack do Alura!</h1>
+  <h1>Welcome to course of MEAN Stack - Movies</h1>
   <ul ng-repeat="movie in movies">
     <li>{{movie.title}}</li>
   </ul>
@@ -712,7 +712,7 @@ Agora, em nosso arquivo ```index.ejs``` vamos exibir cada um dos movies em uma l
 </body>
 </html>
 ```
-Agora, vamos permitir o cadastro de novos movies criando um simples formulário:
+Agora, vamos permitir o cadastro de novos filmes criando um simples formulário:
 
 ```html
 <!-- views/index.ejs -->
@@ -742,15 +742,15 @@ Agora, vamos permitir o cadastro de novos movies criando um simples formulário:
 </html>
 ```
 
-Vamos agora vincular este formulário a um movie. Para isso, em nosso *Controller*, criaremos um novo modelo de movie:
+Vamos agora vincular este formulário a um filme. Para isso, em nosso *Controller*, criaremos um novo modelo de filme:
 
 ```js
 // public/javascript/MoviesController.js
 
 function MoviesController($http, $scope) {
   $http.get('/list')
-  .success(function(retorno) {
-    $scope.movies = retorno.movies;
+  .success(function(res) {
+    $scope.movies = res.movies;
   });
 
   function Movie() {
@@ -762,8 +762,8 @@ function MoviesController($http, $scope) {
   $scope.movie = new Movie();
 
   $http.post('/insert', { title: 'Gattaca', director:  'Andrew Nicool', year: 1997 })
-  .success(function(retorno) {
-    console.log(retorno);
+  .success(function(res) {
+    console.log(res);
   });
 }
 ````
@@ -807,7 +807,7 @@ Quando submetermos o formulário, queremos chamar a função ```insertMovie```:
   <title>Course MEAN by Laisson</title>
 </head>
 <body ng-controller="MoviesController">
-  <h1>Course MEAN by Laisson ao treinamento de MEAN Stack do Alura!</h1>
+  <h1>Welcome to course of MEAN Stack - Movies</h1>
   <ul ng-repeat="movie in movies">
     <li>{{movie.title}}</li>
   </ul>
@@ -830,8 +830,8 @@ Para isso, utilizaremos o a função ```$http.post```:
 <!-- public/javascript/MoviesController.js -->
 function MoviesController($http, $scope) {
   $http.get('/lista')
-  .success(function(retorno) {
-    $scope.movies = retorno.movies;
+  .success(function(res) {
+    $scope.movies = res.movies;
   });
 
   function Movie() {
@@ -864,7 +864,7 @@ exports.insert = function(req, res) {
   res.send('Movie ' + movie.title  + ' recebido no servidor.');
 };
 ```
-Repare que usamos o operador `new` com nosso model `Movie`. Ele recebe em seu construtor os dados enviados na requisição. Agora que nosso movie é um model do mongoose, podemos utilizar suas funções de persistência. Para salvar o movie, usaremos a função `save`:
+Repare que usamos o operador `new` com nosso model `Movie`. Ele recebe em seu construtor os dados enviados na requisição. Agora que nosso filme é um model do mongoose, podemos utilizar suas funções de persistência. Para salvar o filme, usaremos a função `save`:
 
 ```js
 // routes/index.js
@@ -879,4 +879,101 @@ exports.insert = function(req, res) {
 
 };
 ```
-Façamos um teste: vamos cadastrar outros movies, e depois, recarregar a página. A lista deve exibir o novo movie cadastrado.
+Façamos um teste: vamos cadastrar outros filmes, e depois, recarregar a página. A lista deve exibir o novo filme cadastrado.
+
+## 4. Alterando filmes
+
+Seja bem-vindo ao sexto capítulo de MEAN Stack do Alura. No capítulo anterior, criamos uma funcionalidade para deletar filmes. Agora queremos atualizar as informações de um filme já existente.
+
+### Selecionando filme da lista
+
+Na página `index.ejs` criaremos uma nova âncora na `div` de filme selecionado:
+
+```html
+<div ng-if="selectedMovie">
+    <label>Movie Details</label>
+    <div class="text-center">
+        <dl>
+            <dt>Title: </dt>{{selectedMovie.title}}
+            <dt>Director: </dt>{{selectedMovie.director}}
+            <dt>Year: </dt>{{selectedMovie.year}}
+        </dl>
+        <button ng-click="hideMovieDetail()" class="btn btn-warning btn-sm">Hide Detail</button>
+        <button ng-click="editMovie(selectedMovie)" class="btn btn-info btn-sm">Edit</button>
+        <button ng-click="deleteMovie(selectedMovie)" class="btn btn-danger btn-sm">Delete</button>
+        <hr>
+    </div>
+</div>
+```
+
+Em nosso `MoviesController` criaremos a função `editMovie`. Queremos que o filme do nosso formulário seja o filme selecionado, por isso substituímos `$scope.movie` pelo filme passado como parâmetro:
+
+```js
+$scope.editMovie = function(movie) {
+    $scope.movie = movie;
+};
+```
+
+Vamos visualizar o resultado. Quando clicamos no filme da lista, seus dados são exibidos no formulário, excelente!
+
+### Adicionando ou alterando um filme
+
+Quando submetermos um filme agora, podemos estar incluindo ou atualizando um filme, por isso não utilizaremos mais nossa função `inserMovie`. No lugar disso, utilizaremos uma função mais genérica chamada `sendMovie`.
+
+Vamos criar em nosso controller a função `sendMovie`. Se o filme tiver a propriedade `_id`, significa que ele já existe no banco de dados e queremos atualizá-lo. Caso não tenha, é porque desejamos adicioná-lo no banco.
+
+Segue a função `sendMovie`:
+
+```js
+var updateMovie = function() {
+    $http.put('/movie', $scope.movie)
+        .success(function() {
+            $scope.movie = new Movie();
+        });
+};
+
+$scope.sendMovie = function() {
+    if($scope.movie._id) {
+        updateMovie();
+    } else {
+        insertMovie();
+    }
+};
+```
+
+A função `insertMovie` não fará mais parte do escopo do controller:
+
+```js
+var insertMovie = function() {
+    $http.post('/insert', $scope.movie).success(function(res) {
+        $scope.movies.push(res);
+        $scope.movie = new Movie();
+    });
+};
+```
+
+### Adequando nosso backend para adição/alteração de filmes
+
+Agora, precisamos preparar nosso servidor.  No arquivo `app.js` criaremos uma rota:
+
+```js
+app.get('/', routes.index);
+app.get('/list', routes.list);
+app.post('/insert', routes.insert);
+app.delete('/movie/:id', routes.remove);
+app.put('/movie', routes.update); // nova rota criada
+```
+
+Agora, em nosso arquivo `index.js`, vamos programar uma resposta:
+
+```js
+exports.update = function(req, res) {
+	var id = req.body._id;
+	delete req.body._id;
+	Movie.findByIdAndUpdate(id, req.body, function(err, movie) {
+		res.send('Movie ' + movie.title + ' update successfully!');
+	});
+};
+```
+
+Podemos testar o resultado reiniciando o servidor , selecionado um filme e alterando-o em seguida.

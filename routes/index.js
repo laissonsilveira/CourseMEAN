@@ -26,3 +26,11 @@ exports.remove = function(req, res) {
 		res.send('Movie ' + movie.title + ' removed successfully!');
 	});
 };
+
+exports.update = function(req, res) {
+	var id = req.body._id;
+	delete req.body._id;
+	Movie.findByIdAndUpdate(id, req.body, function(err, movie) {
+		res.send('Movie ' + movie.title + ' update successfully!');
+	});
+};

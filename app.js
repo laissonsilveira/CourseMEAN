@@ -17,9 +17,10 @@ app.get('/', routes.index);
 app.get('/list', routes.list);
 app.post('/insert', routes.insert);
 app.delete('/movie/:id', routes.remove);
+app.put('/movie', routes.update);
 
 app.set('port', process.env.PORT || 3000);
 
 var server = app.listen(app.get('port'), function() {
-	console.log('Server started in port ' + server.address().port);
+	console.log('Server started on port ' + server.address().port);
 })

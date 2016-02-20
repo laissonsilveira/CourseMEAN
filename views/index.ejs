@@ -28,11 +28,12 @@
 					        <dt>Year: </dt>{{selectedMovie.year}}
 					    </dl>
 					    <button ng-click="hideMovieDetail()" class="btn btn-warning btn-sm">Hide Detail</button>
+						<button ng-click="editMovie(selectedMovie)" class="btn btn-info btn-sm">Edit</button>
 					    <button ng-click="deleteMovie(selectedMovie)" class="btn btn-danger btn-sm">Delete</button>
 					    <hr>
 					</div>
 				</div>
-				 <form class="form-inline" ng-submit="insertMovie()">
+				 <form class="form-inline" ng-submit="sendMovie()">
 					<div class="form-group">
 						<label>Title: </label>
 						<input ng-model="movie.title" type="text" class="form-control" placeholder="Insert a title...">
@@ -45,7 +46,7 @@
 						<label>Year: </label>
 						<input ng-model="movie.year" type="text" class="form-control" placeholder="Insert a year..">
 					</div>
-					<button type="submit" class="btn btn-primary">Add</button>
+					<button type="submit" class="btn btn-primary">Save</button>
 				</form>
 			</div>
 		</div>
