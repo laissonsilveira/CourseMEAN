@@ -980,7 +980,7 @@ Podemos testar o resultado reiniciando o servidor , selecionado um filme e alter
 
 ## 5. Criando controllers através de módulos
 
-Nesse capítulo usaremos uma **versão mais recente do Angular** que está disponível [aqui][https://angularjs.org].
+Nesse capítulo usaremos uma **versão mais recente do Angular** que está disponível em https://angularjs.org.
 
 ### Escopo do Controller
 
