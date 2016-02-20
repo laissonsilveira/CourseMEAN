@@ -1,4 +1,4 @@
-function MoviesController($http, $scope) {
+angular.module('catalog').controller('MoviesController', function($http, $scope) {
     $http.get('/list').success(function (res) {
         $scope.movies = res.movies;
     }).error(function(r) {
@@ -56,4 +56,4 @@ function MoviesController($http, $scope) {
         $scope.movie = movie;
     };
     
-}
+});

@@ -977,3 +977,58 @@ exports.update = function(req, res) {
 ```
 
 Podemos testar o resultado reiniciando o servidor , selecionado um filme e alterando-o em seguida.
+
+## 5. Criando controllers através de módulos
+
+Nesse capítulo usaremos uma **versão mais recente do Angular** que está disponível [aqui][https://angularjs.org].
+
+### Escopo do Controller
+
+Muito bem, concluímos nossa aplicação, mas ela ainda pode ficar melhor. Se voltarmos para o arquivo `MoviesController.js`, vemos que nosso controller foi declarado como uma função global. O problema de declararmos controllers desta forma é que qualquer um pode criar uma função com o mesmo nome em um arquivo js e importá-lo em nossa página, sobrescrevendo nossa função.
+
+### Módulos com Angular
+
+Para resolver problemas como este e adicionar outras funcionalidades no sistema, o Angular trabalha com um sistema de módulos. Vamos criar um módulo criando o arquivo `main.js` dentro a pasta `javascript`. Criamos um módulo do Angular através do objeto global `angular` chama a função `module` que recebe como parâmetro o nome do módulo:
+
+```js
+// javascript/main.js
+
+angular.module('catalog', []);
+```
+
+O segundo parâmetro é um array com todas as dependências da aplicação. Como não temos nenhuma dependência, passamos um array vazio.
+
+Em seguida, precisamos importar este módulo imediatamente abaixo da importação do angular em nossa página `index.ejs`:
+
+```html
+<!-- views/index.ejs -->
+
+<script src="/javascripts/angular.js"></script>
+<script src="/javascripts/main.js"></script>
+<script src="/javascripts/MoviesController.js"></script>
+```
+
+Precisamos também indicar que nossa diretiva `ng-app` utiliza o módulo catalogo que criamos:
+
+```html
+<!-- views/index.ejs -->
+
+<html ng-app="catalog">
+```
+
+Nosso próximo passo será alterar `MoviesController`.
+
+Utilizaremos novamente o objeto angular chamando a função module passando o nome do nosso módulo, porém desta vez não passaremos a lista de dependências em vazia. Isso significa que não estamos criando um novo módulo, mas queremos acessar um já existente. Em seguida, chamamos a função controller que recebe como primeiro parâmetro o nome do nosso controller e como segundo um callback que o define.
+
+```js
+angular.module('catalog').controller('MoviesController', function($http, $scope) {
+    $http.get('/list').success(function (res) {
+        $scope.movies = res.movies;
+    }).error(function(r) {
+        console.log("Error! : " + r)
+    });
+    // código posterior comentado
+});
+```
+
+Pronto! Agora podemos subir nosso servidor e testar. Tudo deve continuar funcionando, pois não alteramos o comportamento da nossa aplicação, apenas a maneira pela qual criamos seus controllers.
